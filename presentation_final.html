@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Timetable Generator Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --bg: #ffffff;
+            --text: #1e293b;
+            --accent: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+        }
+
+        .slide {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 40px 60px;
+            margin: 20px auto;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            position: relative;
+            page-break-after: always;
+        }
+
+        @media print {
+            body { background: white; }
+            .slide { margin: 0; box-shadow: none; border: none; }
+            .no-print { display: none; }
+        }
+
+        h1 { color: var(--primary); font-size: 32pt; margin-bottom: 10px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+        h2 { color: var(--primary); font-size: 24pt; margin-top: 0; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; }
+        h2::before { content: ''; display: inline-block; width: 12px; height: 12px; background: var(--primary); margin-right: 15px; border-radius: 2px; }
+
+        .content { font-size: 14pt; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 15px; position: relative; padding-left: 25px; }
+        li::before { content: '•'; color: var(--primary); font-weight: bold; position: absolute; left: 0; font-size: 1.2em; }
+
+        .title-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        .title-logo {
+            font-size: 60pt;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 18pt;
+            color: var(--secondary);
+            margin-bottom: 50px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 12pt;
+        }
+
+        .info-table td { padding: 12px; border: 1px solid var(--accent); }
+        .tech-box { background: var(--accent); padding: 15px; border-radius: 8px; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11pt; }
+
+        .arch-viz {
+            border: 2px dashed var(--secondary);
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px;
+            background: #fafafa;
+            margin: 20px 0;
+            font-family: inherit;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            right: 60px;
+            font-size: 10pt;
+            color: var(--secondary);
+            border-top: 1px solid var(--accent);
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            z-index: 1000;
+        }
+
+        .print-btn:hover { background: #1d4ed8; }
+
+        .chip {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 100px;
+            font-size: 10pt;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn no-print" onclick="window.print()">Download as PDF</button>
+
+    <!-- Slide 1: Title -->
+    <div class="slide">
+        <div class="title-page">
+            <div class="title-logo">🤖</div>
+            <h1>AI-Driven University Timetable Generator</h1>
+            <p class="subtitle">Automated, Conflict-Free Scheduling using Constraint Programming & Machine Learning</p>
+            
+            <div style="margin-top: 100px; border: 1px solid #e2e8f0; padding: 30px; border-radius: 16px; background: white; width: 80%;">
+                <p><strong>Prepared for:</strong> Department Presentation</p>
+                <p><strong>Topic:</strong> AI and Automation in Institutional Systems</p>
+            </div>
+        </div>
+        <div class="footer">
+            <span>© 2026 AI Timetable Project</span>
+            <span>Presentation</span>
+        </div>
+    </div>
+
+    <!-- Slide 2: Problem Statement -->
+    <div class="slide">
+        <h2>Problem Statement</h2>
+        <div class="content">
+            <ul>
+                <li><strong>Manual Complexity:</strong> Timetable creation is tedious, error-prone, and takes days of effort.</li>
+                <li><strong>Dynamic Conflicts:</strong> Handling double-bookings of teachers and rooms simultaneously is a mathematical nightmare.</li>
+                <li><strong>Capacity Constraints:</strong> Ensuring room capacity matches student strength per division.</li>
+                <li><strong>Rigidity:</strong> Existing tools don't adapt to teacher preferences or historical satisfaction patterns.</li>
+                <li><strong>Scaling Issues:</strong> As the number of courses and divisions grows, manual scheduling becomes impossible.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>Problem Definition</span>
+            <span>Slide 2</span>
+        </div>
+    </div>
+
+    <!-- Slide 3: Objectives -->
+    <div class="slide">
+        <h2>Project Objectives</h2>
+        <div class="content">
+            <ul>
+                <li><strong>Automation:</strong> Generate 100% conflict-free schedules in seconds instead of days.</li>
+                <li><strong>Constraint Satisfaction:</strong> Enforce strict "Hard Constraints" while optimizing for flexible "Soft Constraints".</li>
+                <li><strong>Fairness:</strong> Implement load balancing to ensure equitable distribution of lectures across faculty.</li>
+                <li><strong>User-Centric UI:</strong> Provide a modern, interactive grid for easy visualization and manual fine-tuning.</li>
+                <li><strong>Smart Learning:</strong> Utilize Machine Learning to prioritize slots based on historical preference data.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>Goals & Vision</span>
+            <span>Slide 3</span>
+        </div>
+    </div>
+
+    <!-- Slide 4: Project Methodology -->
+    <div class="slide">
+        <h2>Project Methodology</h2>
+        <div class="content">
+            <div class="chip">Scientific Approach</div>
+            <ul>
+                <li><strong>Constraint Modeling:</strong> Translation of academic regulations into linear inequalities.</li>
+                <li><strong>State-Space Search:</strong> Using CP-SAT to prune impossible branches of the decision tree.</li>
+                <li><strong>Heuristic Optimization:</strong> Balancing soft constraints using a weighted objective function.</li>
+                <li><strong>Unit Decomposition:</strong> Breaking complex courses into atomic "Solver Units" for granular control.</li>
+                <li><strong>Iterative Solving:</strong> Real-time feedback loop allowing users to refine constraints dynamically.</li>
+            </ul>
+            <div class="tech-box">
+                Model: CSP (Constraint Satisfaction Problem)<br>
+                Solver: Lazy Clause Generation + SAT
+            </div>
+        </div>
+        <div class="footer">
+            <span>Methodology</span>
+            <span>Slide 4</span>
+        </div>
+    </div>
+
+    <!-- Slide 5: Technology Stack -->
+    <div class="slide">
+        <h2>Technical Stack</h2>
+        <div class="content">
+            <div class="chip">Full Stack Architecture</div>
+            <table class="info-table">
+                <tr><td><strong>Frontend</strong></td><td>React.js + shadcn/ui + Tailwind CSS</td></tr>
+                <tr><td><strong>Backend API</strong></td><td>FastAPI (Python)</td></tr>
+                <tr><td><strong>AI Solver</strong></td><td>Google OR-Tools (CP-SAT Solver)</td></tr>
+                <tr><td><strong>Intelligence</strong></td><td>Scikit-learn (ML) + Google Gemini API (NLP)</td></tr>
+                <tr><td><strong>Async Processing</strong></td><td>Celery + Redis</td></tr>
+                <tr><td><strong>Database</strong></td><td>PostgreSQL + Alembic Migrations</td></tr>
+            </table>
+            <div class="arch-viz">
+                <strong>Modern Architecture:</strong> Decoupled frontend, asynchronous worker-based solving, and persistent relational storage.
+            </div>
+        </div>
+        <div class="footer">
+            <span>Technology</span>
+            <span>Slide 5</span>
+        </div>
+    </div>
+
+    <!-- Slide 6: System Architecture -->
+    <div class="slide">
+        <h2>System Architecture</h2>
+        <div class="content">
+            <div class="arch-viz" style="font-family: 'JetBrains Mono', monospace; font-size: 11pt; line-height: 2;">
+                [React Frontend]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;↓ (REST API)<br>
+                [FastAPI Backend]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;↓ (Push Job)<br>
+                [Redis Queue]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;↓ (Picks Job)<br>
+                [Celery Worker (OR-Tools)]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;↓ (Store Result)<br>
+                [PostgreSQL Database]
+            </div>
+            <ul>
+                <li><strong>Reactive UI:</strong> Near-instant feedback on data management.</li>
+                <li><strong>Non-Blocking:</strong> AI solver runs in the background; the system remains responsive.</li>
+                <li><strong>Secure:</strong> Robust database transitions and consistent state management.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>Architecture</span>
+            <span>Slide 6</span>
+        </div>
+    </div>
+
+    <!-- Slide 7: Key Features -->
+    <div class="slide">
+        <h2>Key Features</h2>
+        <div class="content">
+            <ul>
+                <li><strong>🤖 AI-Powered CP-SAT Solver:</strong> Guaranteed conflict-free schedules for all hard constraints.</li>
+                <li><strong>🔬 Lab/Batch Logic:</strong> Handles the complexity of full-division theory sessions vs. split-batch lab sessions.</li>
+                <li><strong>⚖️ Load Balancing:</strong> Prevents faculty burnout by distributing daily and weekly sessions fairly.</li>
+                <li><strong>💬 NLP Search (Gemini):</strong> Query the timetable using natural language (e.g., "Is Room 101 free on Monday morning?").</li>
+                <li><strong>🖱️ Drag-and-Drop:</strong> Flexibility to manually override or adjust generated slots with immediate validity checking.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>Innovation</span>
+            <span>Slide 7</span>
+        </div>
+    </div>
+
+    <!-- Slide 8: AI & Constraint Logic -->
+    <div class="slide">
+        <h2>Constraint Logic (CP-SAT)</h2>
+        <div class="content">
+            <div class="chip">Mathematical Optimization</div>
+            <p><strong>Hard Constraints (Non-Negotiable):</strong></p>
+            <ul>
+                <li>Teacher Uniqueness: No teacher in two rooms at once.</li>
+                <li>Room Uniqueness: No room holding two different courses at once.</li>
+                <li>Capacity Check: Room size ≥ Division strength.</li>
+                <li>Session Quota: Exactly N sessions per week for each course.</li>
+            </ul>
+            <p><strong>Soft Constraints (Optimized):</strong></p>
+            <ul>
+                <li>Minimizing "Gaps" in teacher and student schedules.</li>
+                <li>Prioritizing preferred time slots for specific subjects.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>AI Core</span>
+            <span>Slide 8</span>
+        </div>
+    </div>
+
+    <!-- Slide 9: Machine Learning Component -->
+    <div class="slide">
+        <h2>Machine Learning & Satisfaction</h2>
+        <div class="content">
+            <ul>
+                <li><strong>Data-Driven:</strong> Learns from historical "Constraint Logs" and user satisfaction scores.</li>
+                <li><strong>Feature Extraction:</strong> Analyzes `teacher_id`, `course_id`, and `slot_id` to predict high-satisfaction assignments.</li>
+                <li><strong>Dynamic Weights:</strong> The solver uses ML predictions to weight soft constraints, making the AI "smarter" over time.</li>
+                <li><strong>Gemini Integration:</strong> Uses Generative AI to parse complex natural language requests and explain scheduling logic.</li>
+            </ul>
+            <div class="tech-box">
+                Model: Random Forest / Linear Regressor<br>
+                Input: Historical Satisfactions -> Output: Optimized Weights for Solver
+            </div>
+        </div>
+        <div class="footer">
+            <span>Intelligence</span>
+            <span>Slide 9</span>
+        </div>
+    </div>
+
+    <!-- Slide 10: Challenges & Solutions -->
+    <div class="slide">
+        <h2>Challenges & Solutions</h2>
+        <div class="content">
+            <ul>
+                <li><strong>Infeasibility:</strong> Solved by implementing a "Constraint Relaxer" that identifies which constraint is preventing a solution.</li>
+                <li><strong>Batch Management:</strong> Developed a specific mapping system to link Lab batches to their parent Divisions.</li>
+                <li><strong>Concurrency:</strong> Used Redis to manage multiple simultaneous generations without backend crashes.</li>
+                <li><strong>Global Data Consistency:</strong> Implemented Alembic migrations to ensure database schema changes are synced across environments.</li>
+            </ul>
+        </div>
+        <div class="footer">
+            <span>Implementation Details</span>
+            <span>Slide 10</span>
+        </div>
+    </div>
+
+    <!-- Slide 11: Conclusion -->
+    <div class="slide">
+        <div class="title-page">
+            <h2>Conclusion & Future Scope</h2>
+            <div class="content">
+                <p>We have successfully built a production-grade, end-to-end AI scheduling system that handles the most complex aspects of university administration.</p>
+                <div class="arch-viz" style="text-align: left;">
+                    <strong>Next Steps:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Integration with University ERP systems via Webhooks.</li>
+                        <li>Automated student notification via Email/SMS for changes.</li>
+                        <li>Advanced Resource Analytics (Heatmaps for room usage).</li>
+                    </ul>
+                </div>
+                <h1 style="border: none; margin-top: 50px;">Thank You!</h1>
+                <p>Q & A</p>
+            </div>
+        </div>
+        <div class="footer">
+            <span>Final Slide</span>
+            <span>Slide 11</span>
+        </div>
+    </div>
+
+</body>
+</html>
